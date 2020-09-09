@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import regeneratorRuntime from "regenerator-runtime";
 
 const mockData = {
     relationship: 'Michelle & Kevin',
@@ -37,7 +38,7 @@ const EventCard = ({ name, description, date, year, img }) => (
             <div className="uk-card-media-top">
                 <div className="uk-inline">
                     <img src={img} alt={name} />
-                    <div class="uk-position-top-right uk-overlay uk-overlay-default uk-padding-small">{date}<br />{year}</div>
+                    <div className="uk-position-top-right uk-overlay uk-overlay-default uk-padding-small">{date}<br />{year}</div>
                 </div>
             </div>
             <div className="uk-card-body">
@@ -61,11 +62,105 @@ const EventSlide = ({ events }) => (
                     <a className="uk-position-center-right uk-position-small uk-hidden-hover" href="#" data-uk-slidenav-next
                         data-uk-slider-item="next"></a>
                 </div>
-                <ul class="uk-slider-nav uk-dotnav uk-flex-center uk-margin"></ul>
+                <ul className="uk-slider-nav uk-dotnav uk-flex-center uk-margin"></ul>
             </div>
         </div>
     </div>
 );
+
+const addDays = (date, days) => (
+    new Date(
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate() + days,
+        date.getHours(),
+        date.getMinutes(),
+        date.getSeconds(),
+        date.getMilliseconds()
+    )
+)
+
+const firstDateInMonth = (date) => {
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    return new Date(year, month, 1);
+};
+
+const firstDateOfFirstWeek = (date) => {
+    const firstDate = firstDateInMonth(date);
+    const day = firstDate.getDay();
+    return addDays(firstDate, -day);
+};
+
+const firstDayOfWeeksInMonth = function* (date) {
+    const month = date.getMonth();
+    let nextDay = firstDateOfFirstWeek(date);
+    while (nextDay.getMonth() <= month) {
+        yield nextDay;
+        nextDay = addDays(nextDay, 7);
+    }
+};
+
+const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+const CalendarHeader = () => (
+    <thead className="uk-text-center">
+        <tr>
+            {daysOfWeek.map((day) => <th key={`${day}-header`}> {day} </th>)}
+        </tr>
+    </thead>
+);
+
+const CalendarDate = ({ date, events, inMonth, isActive }) => {
+    return (
+        <td>{date.getDate()}</td>
+    )
+};
+
+const CalendarRow = ({ first }) => {
+    const offsets = [0, 1, 2, 3, 4, 5, 6];
+    return (
+        <tr>
+            {
+                offsets.map((offset) => {
+                    const date = addDays(first, offset);
+                    return <CalendarDate key={`date-${date}`} date={date} />;
+                })
+            }
+        </tr>
+    )
+};
+
+const CalendarBody = ({ activeDate }) => {
+
+    const firstDays = Array.from(firstDayOfWeeksInMonth(activeDate));
+
+    return (
+        < tbody >
+            {firstDays.map((date) => <CalendarRow key={`row-${date}`} first={date} />)}
+        </tbody >
+    );
+};
+
+const Calendar = ({ activeDate }) => {
+    const firstInMonth = firstDateInMonth(activeDate);
+    const firstDayInMonth = firstInMonth.getDay();
+    const firstDays =
+        Array.from(firstDayOfWeeksInMonth(activeDate)).map(date => date.toString())
+
+    return (
+        <div className="uk-section">
+            <div className="uk-container">
+                <div className="uk-overflow-auto">
+                    <table className="uk-table uk-table-small uk-table-divider">
+                        <CalendarHeader />
+                        <CalendarBody activeDate={activeDate} />
+                    </table>
+                </div>
+            </div>
+        </div>
+    );
+};
 
 const Nav = ({ brand }) => (
     <nav className="uk-navbar-container" data-uk-navbar>
@@ -92,6 +187,7 @@ const App = () => {
         <>
             <Nav brand={relationship} />
             <EventSlide events={cardList} />
+            <Calendar activeDate={new Date()} />
         </>
     );
 };
