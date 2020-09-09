@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Nav = ({ brand }) => (
-    <nav className="uk-navbar-container" data-uk-navbar>
+    <nav className="uk-navbar-container" data-uk-navbar data-uk-sticky="bottom: 200">
         <div className="uk-navbar-left">
             <ul className="uk-navbar-nav">
                 <li className="uk-active"><a href="#">Memento</a></li>
