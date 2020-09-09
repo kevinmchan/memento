@@ -2,6 +2,11 @@ import React from 'react';
 import { addDays, firstDayOfWeeksInMonth } from '../dateutils';
 
 const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const months = [
+    "January", "February", "March", "April",
+    "May", "June", "July", "August",
+    "September", "October", "November", "December"
+]
 
 const CalendarHeader = () => (
     <thead className="uk-text-center">
@@ -13,7 +18,7 @@ const CalendarHeader = () => (
 
 const CalendarDate = ({ date, events, inMonth, isActive }) => {
     return (
-        <td>{date.getDate()}</td>
+        <td className="uk-text-center">{date.getDate()}</td>
     )
 };
 
@@ -42,11 +47,26 @@ const CalendarBody = ({ activeDate }) => {
     );
 };
 
+const MonthSelector = ({ activeDate }) => {
+    return (
+        <div className="uk-flex uk-flex-center">
+            <div className="uk-botton-group">
+                <button className="uk-button uk-button-text"><span data-uk-icon="chevron-double-left"></span></button>
+                <button className="uk-button uk-button-default" type="button">
+                    {months[activeDate.getMonth()]}
+                </button>
+                <button className="uk-button uk-button-text"><span data-uk-icon="chevron-double-right"></span></button>
+            </div>
+        </div>
+    )
+};
+
 const Calendar = ({ activeDate }) => {
     return (
         <div className="uk-section">
             <div className="uk-container">
-                <div className="uk-overflow-auto">
+                <MonthSelector activeDate={activeDate} />
+                <div className="uk-overflow-auto uk-width-2xlarge uk-align-center uk-card-default">
                     <table className="uk-table uk-table-small uk-table-divider">
                         <CalendarHeader />
                         <CalendarBody activeDate={activeDate} />
