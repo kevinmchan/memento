@@ -49,13 +49,16 @@ const CalendarBody = ({ activeDate }) => {
 
 const MonthSelector = ({ activeDate }) => {
     return (
-        <div className="uk-flex uk-flex-center">
-            <div className="uk-botton-group">
-                <button className="uk-button uk-button-text"><span data-uk-icon="chevron-double-left"></span></button>
-                <button className="uk-button uk-button-default" type="button">
-                    {months[activeDate.getMonth()]}
-                </button>
-                <button className="uk-button uk-button-text"><span data-uk-icon="chevron-double-right"></span></button>
+        <div className="uk-flex uk-flex-center uk-flex-middle uk-width-2xlarge uk-margin-auto uk-inline">
+            <div className="uk-overlay uk-position-center-right"><a className="uk-link-muted" href="#">Today</a></div>
+            <div>
+                <div className="uk-botton-group">
+                    <button className="uk-button uk-button-text"><span data-uk-icon="chevron-double-left"></span></button>
+                    <button className="uk-button uk-button-default" type="button">
+                        {months[activeDate.getMonth()]}
+                    </button>
+                    <button className="uk-button uk-button-text"><span data-uk-icon="chevron-double-right"></span></button>
+                </div>
             </div>
         </div>
     )
