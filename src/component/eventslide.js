@@ -26,11 +26,11 @@ const EventSlide = ({ events }) => (
                         {events.map((event) => <EventCard key={event.id} {...event} />)}
                     </ul>
                     <a className="uk-position-center-left uk-position-small uk-hidden-hover" href="#" data-uk-slidenav-previous
-                        data-uk-slider-item="previous"></a>
+                        data-uk-slider-item="previous"/>
                     <a className="uk-position-center-right uk-position-small uk-hidden-hover" href="#" data-uk-slidenav-next
-                        data-uk-slider-item="next"></a>
+                        data-uk-slider-item="next"/>
                 </div>
-                <ul className="uk-slider-nav uk-dotnav uk-flex-center uk-margin"></ul>
+                <ul className="uk-slider-nav uk-dotnav uk-flex-center uk-margin"/>
             </div>
         </div>
     </div>

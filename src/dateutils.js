@@ -1,4 +1,5 @@
-import regeneratorRuntime from "regenerator-runtime";
+// eslint-disable-next-line no-unused-vars
+import regeneratorRuntime from 'regenerator-runtime';
 
 const addDays = (date, days) => (
     new Date(
@@ -10,7 +11,7 @@ const addDays = (date, days) => (
         date.getSeconds(),
         date.getMilliseconds()
     )
-)
+);
 
 const firstDateInMonth = (date) => {
     const year = date.getFullYear();

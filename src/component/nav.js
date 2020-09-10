@@ -12,7 +12,7 @@ const Nav = ({ brand }) => (
         </div>
         <div className="uk-navbar-right">
             <ul className="uk-navbar-nav">
-                <li className="uk-active"><a href="#"><span uk-icon="user"></span></a></li>
+                <li className="uk-active"><a href="#"><span uk-icon="user"/></a></li>
             </ul>
         </div>
     </nav>

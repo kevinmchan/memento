@@ -1,12 +1,12 @@
 import React from 'react';
 import { addDays, firstDayOfWeeksInMonth } from '../dateutils';
 
-const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const months = [
-    "January", "February", "March", "April",
-    "May", "June", "July", "August",
-    "September", "October", "November", "December"
-]
+    'January', 'February', 'March', 'April',
+    'May', 'June', 'July', 'August',
+    'September', 'October', 'November', 'December'
+];
 
 const CalendarHeader = () => (
     <thead className="uk-text-center">
@@ -19,7 +19,7 @@ const CalendarHeader = () => (
 const CalendarDate = ({ date, events, inMonth, isActive }) => {
     return (
         <td className="uk-text-center">{date.getDate()}</td>
-    )
+    );
 };
 
 const CalendarRow = ({ first }) => {
@@ -33,7 +33,7 @@ const CalendarRow = ({ first }) => {
                 })
             }
         </tr>
-    )
+    );
 };
 
 const CalendarBody = ({ activeDate }) => {
@@ -53,15 +53,15 @@ const MonthSelector = ({ activeDate }) => {
             <div className="uk-overlay uk-position-center-right"><a className="uk-link-muted" href="#">Today</a></div>
             <div>
                 <div className="uk-botton-group">
-                    <button className="uk-button uk-button-text"><span data-uk-icon="chevron-double-left"></span></button>
+                    <button className="uk-button uk-button-text"><span data-uk-icon="chevron-double-left"/></button>
                     <button className="uk-button uk-button-default" type="button">
                         {months[activeDate.getMonth()]}
                     </button>
-                    <button className="uk-button uk-button-text"><span data-uk-icon="chevron-double-right"></span></button>
+                    <button className="uk-button uk-button-text"><span data-uk-icon="chevron-double-right"/></button>
                 </div>
             </div>
         </div>
-    )
+    );
 };
 
 const Calendar = ({ activeDate }) => {
