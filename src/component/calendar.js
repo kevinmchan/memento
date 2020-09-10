@@ -6,6 +6,18 @@ import {
   months,
 } from "../dateutils";
 
+const eventsContainsDate = (events, date) => {
+  for (let e of events) {
+    if (
+      date.getDate() === e.date.getDate() &&
+      date.getMonth() === e.date.getMonth()
+    ) {
+      return true;
+    }
+  }
+  return false;
+};
+
 const CalendarHeader = () => (
   <thead className="uk-text-center">
     <tr>
@@ -36,7 +48,7 @@ const CalendarDate = ({
   );
 };
 
-const CalendarRow = ({ first, activeDate, setActiveDate }) => {
+const CalendarRow = ({ first, events, activeDate, setActiveDate }) => {
   const offsets = [0, 1, 2, 3, 4, 5, 6];
   return (
     <tr>
@@ -46,6 +58,7 @@ const CalendarRow = ({ first, activeDate, setActiveDate }) => {
           <CalendarDate
             key={`date-${date}`}
             date={date}
+            hasEvent={eventsContainsDate(events, date)}
             isInMonth={date.getMonth() === activeDate.getMonth()}
             isActive={date.valueOf() === activeDate.valueOf()}
             setActiveDate={setActiveDate}
@@ -56,7 +69,7 @@ const CalendarRow = ({ first, activeDate, setActiveDate }) => {
   );
 };
 
-const CalendarBody = ({ activeDate, setActiveDate }) => {
+const CalendarBody = ({ events, activeDate, setActiveDate }) => {
   const firstDays = Array.from(firstDayOfWeeksInMonth(activeDate));
 
   return (
@@ -65,6 +78,7 @@ const CalendarBody = ({ activeDate, setActiveDate }) => {
         <CalendarRow
           key={`row-${date}`}
           first={date}
+          events={events}
           activeDate={activeDate}
           setActiveDate={setActiveDate}
         />
@@ -107,7 +121,6 @@ const MonthSelector = ({ activeDate, setActiveDate }) => {
 };
 
 const Calendar = ({ events, activeDate, setActiveDate }) => {
-  //TODO: populate body with events
   //TODO: change month based on month selection
   return (
     <div className="uk-section">
@@ -117,6 +130,7 @@ const Calendar = ({ events, activeDate, setActiveDate }) => {
           <table className="uk-table uk-table-small uk-table-divider">
             <CalendarHeader />
             <CalendarBody
+              events={events}
               activeDate={activeDate}
               setActiveDate={setActiveDate}
             />
