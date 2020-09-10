@@ -23,12 +23,11 @@ const CalendarDate = ({
   isActive,
   setActiveDate,
 }) => {
-  //TODO: add hover effect
-
   const classes =
-    "uk-text-center " +
+    "calendar-date uk-text-center " +
     (isInMonth ? "uk-text-secondary " : "uk-text-muted ") +
     (isActive ? "uk-background-primary" : "uk-background-default");
+
   return (
     <td className={classes} onClick={() => setActiveDate(date)}>
       <a className="uk-link-reset">{date.getDate()}</a>
