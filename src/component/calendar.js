@@ -73,13 +73,21 @@ const CalendarBody = ({ activeDate, setActiveDate }) => {
   );
 };
 
-const MonthSelector = ({ activeDate }) => {
+const Today = ({ setActiveDate }) => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return (
+    <a className="uk-link-muted" onClick={() => setActiveDate(today)}>
+      Today
+    </a>
+  );
+};
+
+const MonthSelector = ({ activeDate, setActiveDate }) => {
   return (
     <div className="uk-flex uk-flex-center uk-flex-middle uk-width-2xlarge uk-margin-auto uk-inline">
       <div className="uk-overlay uk-position-center-right">
-        <a className="uk-link-muted" href="#">
-          Today
-        </a>
+        <Today setActiveDate={setActiveDate} />
       </div>
       <div>
         <div className="uk-botton-group">
@@ -104,7 +112,7 @@ const Calendar = ({ events, activeDate, setActiveDate }) => {
   return (
     <div className="uk-section">
       <div className="uk-container">
-        <MonthSelector activeDate={activeDate} />
+        <MonthSelector activeDate={activeDate} setActiveDate={setActiveDate} />
         <div className="uk-overflow-auto uk-width-2xlarge uk-align-center uk-card-default">
           <table className="uk-table uk-table-small uk-table-divider">
             <CalendarHeader />
