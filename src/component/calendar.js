@@ -55,6 +55,7 @@ const CalendarRow = ({ first, activeDate, setActiveDate }) => {
           <CalendarDate
             key={`date-${date}`}
             date={date}
+            isInMonth={date.getMonth() === activeDate.getMonth()}
             isActive={date.valueOf() === activeDate.valueOf()}
             setActiveDate={setActiveDate}
           />
