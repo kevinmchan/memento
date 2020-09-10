@@ -16,9 +16,17 @@ const CalendarHeader = () => (
     </thead>
 );
 
-const CalendarDate = ({ date, events, inMonth, isActive }) => {
+const CalendarDate = ({ date, hasEvent, isInMonth, isActive, updateActive }) => {
+    //TODO: update active date if clicked (affects calendar and slider)
+
+    const classes = (
+        'uk-text-center'
+        + ' ' + (isInMonth ? 'uk-text-secondary' : 'uk-text-muted')
+        + ' ' + (isActive ? 'uk-background-primary' : 'uk-background-default')
+    );
+
     return (
-        <td className="uk-text-center">{date.getDate()}</td>
+        <td className={classes}><a className='uk-link-reset' href='#'>{date.getDate()}</a>{hasEvent ? <strong>&#729;</strong> : ''}</td>
     );
 };
 
