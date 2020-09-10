@@ -29,17 +29,9 @@ const CalendarDate = ({
     "uk-text-center " +
     (isInMonth ? "uk-text-secondary " : "uk-text-muted ") +
     (isActive ? "uk-background-primary" : "uk-background-default");
-  const linkId = `date-link-${date.valueOf()}`;
   return (
-    <td className={classes}>
-      <a
-        id={linkId}
-        className="uk-link-reset"
-        href={`#${linkId}`}
-        onClick={() => setActiveDate(date)}
-      >
-        {date.getDate()}
-      </a>
+    <td className={classes} onClick={() => setActiveDate(date)}>
+      <a className="uk-link-reset">{date.getDate()}</a>
       {hasEvent ? <strong>&#729;</strong> : ""}
     </td>
   );
