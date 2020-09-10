@@ -16,7 +16,7 @@ const App = () => {
   return (
     <>
       <Nav brand={relationship} />
-      <EventSlide events={events} />
+      <EventSlide events={events} activeDate={activeDate} />
       <Calendar
         events={events}
         activeDate={activeDate}

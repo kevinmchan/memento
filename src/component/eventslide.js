@@ -22,36 +22,55 @@ const EventCard = ({ name, description, date, img }) => (
   </li>
 );
 
-const EventSlide = ({ events }) => (
-  <div className="uk-section">
-    <div className="uk-container">
-      <div data-uk-slider="center: true">
-        <div
-          className="uk-position-relative uk-visible-toggle uk-light"
-          tabIndex="-1"
-        >
-          <ul className="uk-slider-items uk-child-width-1-2@s uk-grid">
-            {events.map((event) => (
-              <EventCard key={event.id} {...event} />
-            ))}
-          </ul>
-          <a
-            className="uk-position-center-left uk-position-small uk-hidden-hover"
-            href="#"
-            data-uk-slidenav-previous
-            data-uk-slider-item="previous"
-          />
-          <a
-            className="uk-position-center-right uk-position-small uk-hidden-hover"
-            href="#"
-            data-uk-slidenav-next
-            data-uk-slider-item="next"
-          />
+const closestEvent = (date, events) => {
+  //TODO: Fix - Account for wrapping across years e.g. distance between Jan and December is 1 not 12
+  let result = 0;
+  let dist = 1e10;
+  for (let [event, index] of events.map((e, i) => [e.date, i])) {
+    let newDist =
+      Math.abs(date.getMonth() - event.getMonth()) * 100 +
+      Math.abs(date.getDate() - event.getDate());
+    if (newDist < dist) {
+      result = index;
+      dist = newDist;
+    }
+  }
+  return result;
+};
+
+const EventSlide = ({ activeDate, events }) => {
+  const closestIndex = closestEvent(activeDate, events);
+  return (
+    <div className="uk-section">
+      <div className="uk-container">
+        <div data-uk-slider="center: true" data-index={closestIndex}>
+          <div
+            className="uk-position-relative uk-visible-toggle uk-light"
+            tabIndex="-1"
+          >
+            <ul className="uk-slider-items uk-child-width-1-2@s uk-grid">
+              {events.map((event, id) => (
+                <EventCard key={id} {...event} />
+              ))}
+            </ul>
+            <a
+              className="uk-position-center-left uk-position-small uk-hidden-hover"
+              href="#"
+              data-uk-slidenav-previous
+              data-uk-slider-item="previous"
+            />
+            <a
+              className="uk-position-center-right uk-position-small uk-hidden-hover"
+              href="#"
+              data-uk-slidenav-next
+              data-uk-slider-item="next"
+            />
+          </div>
+          <ul className="uk-slider-nav uk-dotnav uk-flex-center uk-margin" />
         </div>
-        <ul className="uk-slider-nav uk-dotnav uk-flex-center uk-margin" />
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default EventSlide;
