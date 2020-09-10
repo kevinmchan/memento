@@ -98,22 +98,35 @@ const Today = ({ setActiveDate }) => {
 };
 
 const MonthSelector = ({ activeDate, setActiveDate }) => {
+  const prevMonth = (date) =>
+    new Date(date.getFullYear(), date.getMonth() - 1, 1);
+
+  const nextMonth = (date) =>
+    new Date(date.getFullYear(), date.getMonth() + 1, 1);
+
   return (
     <div className="uk-flex uk-flex-center uk-flex-middle uk-width-2xlarge uk-margin-auto uk-inline">
       <div className="uk-overlay uk-position-center-right">
         <Today setActiveDate={setActiveDate} />
       </div>
       <div>
-        <div className="uk-botton-group">
-          <button className="uk-button uk-button-text">
+        <div>
+          <a
+            className="uk-link-muted"
+            onClick={() => setActiveDate(prevMonth(activeDate))}
+          >
             <span data-uk-icon="chevron-double-left" />
-          </button>
-          <button className="uk-button uk-button-default" type="button">
-            {months[activeDate.getMonth()]}
-          </button>
-          <button className="uk-button uk-button-text">
+          </a>
+          <span>
+            {months[activeDate.getMonth()].slice(0, 3)}{" "}
+            {activeDate.getFullYear()}
+          </span>
+          <a
+            className="uk-link-muted"
+            onClick={() => setActiveDate(nextMonth(activeDate))}
+          >
             <span data-uk-icon="chevron-double-right" />
-          </button>
+          </a>
         </div>
       </div>
     </div>
@@ -121,7 +134,6 @@ const MonthSelector = ({ activeDate, setActiveDate }) => {
 };
 
 const Calendar = ({ events, activeDate, setActiveDate }) => {
-  //TODO: change month based on month selection
   return (
     <div className="uk-section">
       <div className="uk-container">

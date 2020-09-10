@@ -26,8 +26,19 @@ const firstDateOfFirstWeek = (date) => {
 
 const firstDayOfWeeksInMonth = function* (date) {
   const month = date.getMonth();
+
   let nextDay = firstDateOfFirstWeek(date);
-  while (nextDay.getMonth() <= month) {
+  const toContinue = (currentMonth, month) => {
+    if (month === 0) {
+      return currentMonth === 11 || currentMonth === 0;
+    }
+    if (month === 11) {
+      return currentMonth === 10 || currentMonth === 11;
+    }
+    return currentMonth <= month;
+  };
+
+  while (toContinue(nextDay.getMonth(), month)) {
     yield nextDay;
     nextDay = addDays(nextDay, 7);
   }
