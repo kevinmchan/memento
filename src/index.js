@@ -4,6 +4,7 @@ import ReactDOM from "react-dom";
 import Nav from "./component/nav";
 import EventSlide from "./component/eventslide";
 import Calendar from "./component/calendar";
+import NewEvent from "./component/newevent";
 
 import mockData from "./mockdata";
 
@@ -13,6 +14,7 @@ const App = () => {
   const date = new Date();
   date.setHours(0, 0, 0, 0);
   const [activeDate, setActiveDate] = useState(date);
+
   return (
     <>
       <Nav brand={relationship} />
@@ -22,6 +24,7 @@ const App = () => {
         activeDate={activeDate}
         setActiveDate={setActiveDate}
       />
+      <NewEvent activeDate={activeDate} />
     </>
   );
 };

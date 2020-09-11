@@ -2,6 +2,7 @@ import React from "react";
 import { months } from "../dateutils";
 
 const EventCard = ({ name, description, date, img }) => (
+  //TODO: Create way to edit/delete event
   <li>
     <div className="uk-card uk-card-default">
       <div className="uk-card-media-top">
@@ -41,7 +42,7 @@ const closestEvent = (date, events) => {
 const EventSlide = ({ activeDate, events }) => {
   const closestIndex = closestEvent(activeDate, events);
   return (
-    <div className="uk-section">
+    <div className="uk-section-xsmall">
       <div className="uk-container">
         <div data-uk-slider="center: true" data-index={closestIndex}>
           <div

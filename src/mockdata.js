@@ -1,5 +1,5 @@
 const mockData = {
-  relationship: "Michelle & Kevin",
+  relationship: "First & Second",
   events: [
     {
       name: "Event name #1",

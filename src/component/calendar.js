@@ -105,7 +105,7 @@ const MonthSelector = ({ activeDate, setActiveDate }) => {
     new Date(date.getFullYear(), date.getMonth() + 1, 1);
 
   return (
-    <div className="uk-flex uk-flex-center uk-flex-middle uk-width-2xlarge uk-margin-auto uk-inline">
+    <div className="uk-flex uk-flex-center uk-flex-middle uk-width-expand uk-margin-auto uk-inline">
       <div className="uk-overlay uk-position-center-right">
         <Today setActiveDate={setActiveDate} />
       </div>
@@ -135,10 +135,10 @@ const MonthSelector = ({ activeDate, setActiveDate }) => {
 
 const Calendar = ({ events, activeDate, setActiveDate }) => {
   return (
-    <div className="uk-section">
-      <div className="uk-container">
+    <div className="uk-section-xsmall">
+      <div className="uk-container uk-width-2xlarge">
         <MonthSelector activeDate={activeDate} setActiveDate={setActiveDate} />
-        <div className="uk-overflow-auto uk-width-2xlarge uk-align-center uk-card-default">
+        <div className="uk-overflow-auto uk-align-center uk-card-default">
           <table className="uk-table uk-table-small uk-table-divider">
             <CalendarHeader />
             <CalendarBody
