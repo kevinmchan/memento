@@ -16,6 +16,12 @@ const NewEvent = ({ activeDate }) => {
         </div>
         <div id="new-event-form" className="uk-hidden new-event-toggle">
           <div className="uk-card-default uk-padding uk-align-center">
+            <button
+              className="uk-align-right"
+              type="button"
+              data-uk-toggle="target: .new-event-toggle; cls: uk-hidden"
+              data-uk-close
+            />
             <form className="uk-margin">
               <fieldset className="uk-fieldset">
                 <legend className="uk-legend">New memento</legend>
