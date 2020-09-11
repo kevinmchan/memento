@@ -10,11 +10,10 @@ import mockData from "./mockdata";
 
 const App = () => {
   const relationship = mockData.relationship;
-  const events = mockData.events;
   const date = new Date();
   date.setHours(0, 0, 0, 0);
   const [activeDate, setActiveDate] = useState(date);
-
+  const [events, setEvents] = useState(mockData.events);
   return (
     <>
       <Nav brand={relationship} />
@@ -24,7 +23,7 @@ const App = () => {
         activeDate={activeDate}
         setActiveDate={setActiveDate}
       />
-      <NewEvent activeDate={activeDate} />
+      <NewEvent activeDate={activeDate} setEvents={setEvents} />
     </>
   );
 };
