@@ -7,13 +7,14 @@ import Calendar from "./component/calendar";
 import NewEvent from "./component/newevent";
 
 import mockData from "./mockdata";
+import { processEventList } from "./dataprocessing";
 
 const App = () => {
   const relationship = mockData.relationship;
   const date = new Date();
   date.setHours(0, 0, 0, 0);
   const [activeDate, setActiveDate] = useState(date);
-  const [events, setEvents] = useState(mockData.events);
+  const [events, setEvents] = useState(processEventList(mockData.events));
   return (
     <>
       <Nav brand={relationship} />
