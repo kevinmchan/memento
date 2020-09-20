@@ -3,6 +3,6 @@
         "node_modules{,/**}",
         ".vscode{,/**}"
     ],
-    "appService.defaultWebAppToDeploy": "/subscriptions/d09437b1-bda3-46eb-af59-0d9e981b0a56/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/mementos",
-    "appService.deploySubpath": "."
+    "appService.deploySubpath": ".",
+    "appService.defaultWebAppToDeploy": "/subscriptions/d09437b1-bda3-46eb-af59-0d9e981b0a56/resourceGroups/mementos/providers/Microsoft.Web/sites/mementos"
 }

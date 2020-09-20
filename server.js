@@ -4,10 +4,13 @@ import apiRouter from "./api";
 import sassMiddleware from "node-sass-middleware";
 import path from "path";
 import express from "express";
+import cors from "cors";
+import bodyParser from "body-parser";
 
 /* create server object */
 const server = express();
-
+server.use(cors())
+server.use(bodyParser.urlencoded({ extended: true }))
 /* use sass middleware to convert sass to css */
 server.use(
   sassMiddleware({

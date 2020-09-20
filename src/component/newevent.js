@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 const NewEvent = ({ activeDate }) => {
   const [eventDate, setEventDate] = useState(activeDate);
@@ -9,6 +10,18 @@ const NewEvent = ({ activeDate }) => {
   useEffect(() => {
     setEventDate(activeDate);
   }, [activeDate]);
+
+  const createHandler = () => {
+    const data = new FormData();
+    data.append('image', selectedFile);
+    data.append('date', eventDate);
+    data.append('name', eventName);
+    data.append('description', eventDesc);
+    axios.post("/api/upload", data, {})
+      .then(res => {
+        console.log(res.statusText);
+      });
+  };
 
   return (
     <div className="uk-section-xsmall">
@@ -83,7 +96,7 @@ const NewEvent = ({ activeDate }) => {
                 className="uk-button uk-button-primary"
                 type="button"
                 data-uk-toggle="target: .new-event-toggle; cls: uk-hidden"
-                onClick={() => { }}
+                onClick={createHandler}
               >
                 Create
               </button>

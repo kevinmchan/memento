@@ -1,10 +1,52 @@
 import express from "express";
 import { MongoClient, ObjectID } from "mongodb";
 import config from "../config";
+import multer from "multer";
+import getStream from "into-stream";
+import { BlobServiceClient, StorageSharedKeyCredential, newPipeline } from "@azure/storage-blob";
 
 const router = express.Router();
-
 const uri = config.mongo_connection;
+
+const inMemoryStorage = multer.memoryStorage();
+const uploadStrategy = multer({ storage: inMemoryStorage }).single("image");
+const containerName = "images";
+
+const ONE_MEGABYTE = 1024 * 1024;
+const uploadOptions = { bufferSize: 4 * ONE_MEGABYTE, maxBuffers: 20 };
+
+const sharedKeyCredential = new StorageSharedKeyCredential(
+  config.storage_account,
+  config.storage_key
+);
+const pipeline = newPipeline(sharedKeyCredential);
+
+const blobServiceClient = new BlobServiceClient(
+  `https://${config.storage_account}.blob.core.windows.net`,
+  pipeline
+);
+
+const getBlobName = originalName => {
+  // Use a random number to generate a unique file name, 
+  // removing "0." from the start of the string.
+  const identifier = Math.random().toString().replace(/0\./, '');
+  return `${identifier}-${originalName}`;
+};
+
+router.post('/upload', uploadStrategy, async (req, res) => {
+  const blobName = getBlobName(req.file.originalname);
+  const stream = getStream(req.file.buffer);
+  const containerClient = blobServiceClient.getContainerClient(containerName);;
+  const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+
+  try {
+    await blockBlobClient.uploadStream(stream,
+      uploadOptions.bufferSize, uploadOptions.maxBuffers,
+      { blobHTTPHeaders: { blobContentType: "image/jpeg" } });
+  } catch (err) {
+    console.error(err);
+  }
+});
 
 router.get("/relationships/:relationshipID", (req, res) => {
   try {
