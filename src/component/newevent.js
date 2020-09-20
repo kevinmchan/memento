@@ -83,7 +83,7 @@ const NewEvent = ({ activeDate }) => {
                 className="uk-button uk-button-primary"
                 type="button"
                 data-uk-toggle="target: .new-event-toggle; cls: uk-hidden"
-                onClick={() => {}}
+                onClick={() => { }}
               >
                 Create
               </button>
