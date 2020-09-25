@@ -20,7 +20,7 @@ const Nav = ({ brand }) => (
       <ul className="uk-navbar-nav">
         <li className="uk-active">
           <a href="#">
-            <span uk-icon="user" />
+            <span uk-icon="heart" />
           </a>
         </li>
       </ul>
