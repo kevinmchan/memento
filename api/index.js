@@ -33,19 +33,53 @@ const getBlobName = originalName => {
   return `${identifier}-${originalName}`;
 };
 
-router.post('/upload', uploadStrategy, async (req, res) => {
-  const blobName = getBlobName(req.file.originalname);
-  const stream = getStream(req.file.buffer);
-  const containerClient = blobServiceClient.getContainerClient(containerName);;
-  const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+router.post('/upload', async (req, res) => {
+  uploadStrategy(req, res, async (err) => {
+    // upload photo
+    const blobName = req.file ? getBlobName(req.file.originalname) : "default-event-background.jpg"
+    if (req.file) {
+      const stream = getStream(req.file.buffer);
+      const containerClient = blobServiceClient.getContainerClient(containerName);;
+      const blockBlobClient = containerClient.getBlockBlobClient(blobName);
 
-  try {
-    await blockBlobClient.uploadStream(stream,
-      uploadOptions.bufferSize, uploadOptions.maxBuffers,
-      { blobHTTPHeaders: { blobContentType: "image/jpeg" } });
-  } catch (err) {
-    console.error(err);
-  }
+      try {
+        await blockBlobClient.uploadStream(stream,
+          uploadOptions.bufferSize, uploadOptions.maxBuffers,
+          { blobHTTPHeaders: { blobContentType: "image/jpeg" } });
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    // upsert event with key: relationship_id, name, date
+    const filename = `https://mementos.blob.core.windows.net/images/${blobName}`
+    const data = {
+      name: req.body.name,
+      relationship_id: req.body.relationshipId,
+      description: req.body.description,
+      date: { month: req.body.month, day: req.body.day, year: req.body.year },
+      img: filename
+    }
+    console.log(data)
+
+    try {
+      const client = new MongoClient(uri, { useNewUrlParser: true });
+      client.connect((err, db) => {
+        if (err) throw err;
+        db.db("memento")
+          .collection("events")
+          .updateOne(
+            { "relationship_id": data.relationshipId, "name": data.name, "date": data.date },  //TODO: broken - doesn't match events
+            { $set: data },
+            { upsert: true }
+          );
+        db.close();
+      });
+    } catch (err) {
+      console.error(err);
+      res.status(404).send("Bad Request");
+    }
+  })
 });
 
 router.get("/relationships/:relationshipID", (req, res) => {

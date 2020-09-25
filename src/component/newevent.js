@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const NewEvent = ({ activeDate }) => {
+const NewEvent = ({ activeDate, relationshipId }) => {
   const [eventDate, setEventDate] = useState(activeDate);
   const [eventName, setEventName] = useState("");
   const [eventDesc, setEventDesc] = useState("");
@@ -14,9 +14,12 @@ const NewEvent = ({ activeDate }) => {
   const createHandler = () => {
     const data = new FormData();
     data.append('image', selectedFile);
-    data.append('date', eventDate);
+    data.append('month', eventDate.getMonth());
+    data.append('day', eventDate.getDate());
+    data.append('year', eventDate.getFullYear());
     data.append('name', eventName);
     data.append('description', eventDesc);
+    data.append('relationshipId', relationshipId);
     axios.post("/api/upload", data, {})
       .then(res => {
         console.log(res.statusText);

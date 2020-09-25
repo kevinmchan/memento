@@ -11,6 +11,8 @@ import bodyParser from "body-parser";
 const server = express();
 server.use(cors())
 server.use(bodyParser.urlencoded({ extended: true }))
+server.use(bodyParser.json())
+
 /* use sass middleware to convert sass to css */
 server.use(
   sassMiddleware({

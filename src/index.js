@@ -11,7 +11,7 @@ import { processEventList } from "./dataprocessing";
 
 const App = () => {
   const date = new Date();
-  const relationship_id = "5f5d3e95d751c816f817af96";
+  const relationshipId = "5f5d3e95d751c816f817af96";
   date.setHours(0, 0, 0, 0);
   const [activeDate, setActiveDate] = useState(date);
   const [brand, setBrand] = useState();
@@ -19,7 +19,7 @@ const App = () => {
 
   useEffect(() => {
     axios
-      .get(`/api/relationships/${relationship_id}`)
+      .get(`/api/relationships/${relationshipId}`)
       .then((resp) => {
         setBrand(resp.data.relationship);
       })
@@ -44,7 +44,7 @@ const App = () => {
         activeDate={activeDate}
         setActiveDate={setActiveDate}
       />
-      <NewEvent activeDate={activeDate} setEvents={setEvents} />
+      <NewEvent activeDate={activeDate} setEvents={setEvents} relationshipId={relationshipId} />
     </>
   );
 };
