@@ -36,11 +36,19 @@ const getBlobName = originalName => {
 router.post('/upload', async (req, res) => {
   uploadStrategy(req, res, async (err) => {
     // upload photo
-    const blobName = req.file ? getBlobName(req.file.originalname) : "default-event-background.jpg"
+    const data = {
+      name: req.body.name,
+      relationship_id: req.body.relationshipId,
+      description: req.body.description,
+      date: { month: req.body.month, day: req.body.day, year: req.body.year },
+    }
+
     if (req.file) {
+      const blobName = getBlobName(req.file.originalname)
       const stream = getStream(req.file.buffer);
       const containerClient = blobServiceClient.getContainerClient(containerName);;
       const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+      data.img = `https://mementos.blob.core.windows.net/images/${blobName}`
 
       try {
         await blockBlobClient.uploadStream(stream,
@@ -51,17 +59,9 @@ router.post('/upload', async (req, res) => {
       }
     }
 
-    // upsert event with key: relationship_id, name, date
-    const filename = `https://mementos.blob.core.windows.net/images/${blobName}`
-    const data = {
-      name: req.body.name,
-      relationship_id: req.body.relationshipId,
-      description: req.body.description,
-      date: { month: req.body.month, day: req.body.day, year: req.body.year },
-      img: filename
-    }
-    console.log(data)
-
+    // upsert event with key: relationship_id, name, date    
+    console.log(req.body)
+    const query = req.body._id ? { "_id": ObjectID(req.body._id) } : { "relationship_id": data.relationship_id, "name": data.name, "date": data.date }
     try {
       const client = new MongoClient(uri, { useNewUrlParser: true });
       client.connect((err, db) => {
@@ -69,7 +69,7 @@ router.post('/upload', async (req, res) => {
         db.db("memento")
           .collection("events")
           .updateOne(
-            { "relationship_id": data.relationship_id, "name": data.name, "date": data.date },  //TODO: broken - doesn't match events
+            query,
             { $set: data },
             { upsert: true }
           );

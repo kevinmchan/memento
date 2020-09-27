@@ -1,17 +1,22 @@
 import React from "react";
 import { months } from "../dateutils";
 
-const EventCard = ({ name, description, date, img }) => (
+const EventCard = ({ _id, relationship_id, name, description, date, img, editEventHandler }) => (
   //TODO: Create way to edit/delete event
   <li>
     <div className="uk-card uk-card-default">
       <div className="uk-card-media-top">
         <div className="uk-inline">
-          <img src={img} alt={name} />
+          <img src={img ? img : "https://mementos.blob.core.windows.net/images/default-event-background.jpg"} alt={name} />
           <div className="uk-position-top-right uk-overlay uk-overlay-default uk-padding-small">
             {months[date.getMonth()].slice(0, 3)} {date.getDate()}
             <br />
             {date.getFullYear()}
+          </div>
+          <div className="uk-position-top-left uk-padding-small">
+            <a href="#" data-uk-toggle="target: .edit-event-toggle; cls: uk-hidden" onClick={() => editEventHandler({ _id, relationship_id, name, description, date })}>
+              <span uk-icon="pencil" />
+            </a>
           </div>
         </div>
       </div>
@@ -39,7 +44,7 @@ const closestEvent = (date, events) => {
   return result;
 };
 
-const EventSlide = ({ activeDate, events }) => {
+const EventSlide = ({ activeDate, events, editEventHandler }) => {
   const closestIndex = closestEvent(activeDate, events);
   return (
     <div className="uk-section-xsmall">
@@ -51,7 +56,7 @@ const EventSlide = ({ activeDate, events }) => {
           >
             <ul className="uk-slider-items uk-child-width-1-2@s uk-grid">
               {events.map((event, id) => (
-                <EventCard key={id} {...event} />
+                <EventCard key={id} {...event} editEventHandler={editEventHandler} />
               ))}
             </ul>
             <a

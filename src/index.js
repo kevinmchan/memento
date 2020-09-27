@@ -6,6 +6,7 @@ import Nav from "./component/nav";
 import EventSlide from "./component/eventslide";
 import Calendar from "./component/calendar";
 import NewEvent from "./component/newevent";
+import EditEvent from "./component/editevent";
 
 import { processEventList } from "./dataprocessing";
 
@@ -16,6 +17,7 @@ const App = () => {
   const [activeDate, setActiveDate] = useState(date);
   const [brand, setBrand] = useState();
   const [events, setEvents] = useState([]);
+  const [currentEvent, setCurrentEvent] = useState({});
 
   useEffect(() => {
     axios
@@ -38,13 +40,14 @@ const App = () => {
   return (
     <>
       <Nav brand={brand} />
-      <EventSlide events={events} activeDate={activeDate} />
+      <EventSlide events={events} activeDate={activeDate} editEventHandler={setCurrentEvent} />
       <Calendar
         events={events}
         activeDate={activeDate}
         setActiveDate={setActiveDate}
       />
       <NewEvent activeDate={activeDate} setEvents={setEvents} relationshipId={relationshipId} />
+      <EditEvent currentEvent={currentEvent} />
     </>
   );
 };
