@@ -69,7 +69,7 @@ router.post('/upload', async (req, res) => {
         db.db("memento")
           .collection("events")
           .updateOne(
-            { "relationship_id": data.relationshipId, "name": data.name, "date": data.date },  //TODO: broken - doesn't match events
+            { "relationship_id": data.relationship_id, "name": data.name, "date": data.date },  //TODO: broken - doesn't match events
             { $set: data },
             { upsert: true }
           );
