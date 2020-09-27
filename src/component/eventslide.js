@@ -13,7 +13,7 @@ const EventCard = ({ _id, relationship_id, name, description, date, img, editEve
             <br />
             {date.getFullYear()}
           </div>
-          <div className="uk-position-top-left uk-padding-small">
+          <div className="uk-position-top-left uk-padding-small edit-event-toggle">
             <a href="#" data-uk-toggle="target: .edit-event-toggle; cls: uk-hidden" onClick={() => editEventHandler({ _id, relationship_id, name, description, date })}>
               <span uk-icon="pencil" />
             </a>
