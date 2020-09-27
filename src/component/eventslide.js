@@ -72,7 +72,7 @@ const EventSlide = ({ activeDate, events, editEventHandler }) => {
               data-uk-slider-item="next"
             />
           </div>
-          <ul className="uk-slider-nav uk-dotnav uk-flex-center uk-margin" />
+          {events.length < 10 ? <ul className="uk-slider-nav uk-dotnav uk-flex-center uk-margin" /> : ""}
         </div>
       </div>
     </div>
