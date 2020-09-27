@@ -4,7 +4,6 @@
   "description": "A calendar to keep track of mementos in your relationships",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "babel-node server.js",
     "dev_start": "nodemon --exec babel-node server.js --ignore public/",
     "dev": "webpack -wd"
