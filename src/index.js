@@ -41,13 +41,13 @@ const App = () => {
     <>
       <Nav brand={brand} />
       <EventSlide events={events} activeDate={activeDate} editEventHandler={setCurrentEvent} />
+      <NewEvent activeDate={activeDate} setEvents={setEvents} relationshipId={relationshipId} />
+      <EditEvent currentEvent={currentEvent} />
       <Calendar
         events={events}
         activeDate={activeDate}
         setActiveDate={setActiveDate}
       />
-      <NewEvent activeDate={activeDate} setEvents={setEvents} relationshipId={relationshipId} />
-      <EditEvent currentEvent={currentEvent} />
     </>
   );
 };
