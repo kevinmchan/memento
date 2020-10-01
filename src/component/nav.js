@@ -4,7 +4,6 @@ const Nav = ({ brand }) => (
   <nav
     className="uk-navbar-container"
     data-uk-navbar
-    data-uk-sticky="bottom: 200"
   >
     <div className="uk-navbar-left">
       <ul className="uk-navbar-nav">
