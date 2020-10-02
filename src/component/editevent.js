@@ -70,8 +70,11 @@ const EditEvent = ({ currentEvent }) => {
                                     <input
                                         type="date"
                                         value={eventDate.toISOString().substring(0, 10)}
-                                        onChange={(event) =>
-                                            setEventDate(new Date(event.target.value))
+                                        onChange={
+                                            (event) => {
+                                                const [y, m, d] = event.target.value.split("-")
+                                                setEventDate(new Date(y, m - 1, d, 0, 0, 0, 0))
+                                            }
                                         }
                                     />
                                 </div>
