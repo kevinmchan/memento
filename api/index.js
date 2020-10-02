@@ -60,7 +60,6 @@ router.post('/upload', async (req, res) => {
     }
 
     // upsert event with key: relationship_id, name, date    
-    console.log(req.body)
     const query = req.body._id ? { "_id": ObjectID(req.body._id) } : { "relationship_id": data.relationship_id, "name": data.name, "date": data.date }
     try {
       const client = new MongoClient(uri, { useNewUrlParser: true });
@@ -82,15 +81,15 @@ router.post('/upload', async (req, res) => {
   })
 });
 
-router.get("/relationships/:relationshipID", (req, res) => {
+router.get("/relationships/:relationshipName", (req, res) => {
   try {
-    const relationshipID = ObjectID(req.params.relationshipID);
+    const relationshipName = req.params.relationshipName;
     const client = new MongoClient(uri, { useNewUrlParser: true });
     client.connect((err, db) => {
       if (err) throw err;
       db.db("memento")
         .collection("relationships")
-        .findOne({ _id: relationshipID })
+        .findOne({ name: relationshipName })
         .then((result) => res.send(result))
         .catch((err) => {
           console.error(err);
@@ -104,36 +103,19 @@ router.get("/relationships/:relationshipID", (req, res) => {
   }
 });
 
-router.get("/events", (req, res) => {
+router.get("/events/:relationshipID", (req, res) => {
   try {
+    const relationshipID = req.params.relationshipID;
     const client = new MongoClient(uri, { useNewUrlParser: true });
     client.connect((err, db) => {
       if (err) throw err;
       db.db("memento")
         .collection("events")
-        .find({})
+        .find({ relationship_id: relationshipID })
         .toArray((err, result) => {
           if (err) throw err;
           res.send(result);
         });
-      db.close();
-    });
-  } catch (err) {
-    console.error(err);
-    res.status(404).send("Bad Request");
-  }
-});
-
-router.get("/events/:eventID", (req, res) => {
-  try {
-    const eventID = ObjectID(req.params.eventID);
-    const client = new MongoClient(uri, { useNewUrlParser: true });
-    client.connect((err, db) => {
-      if (err) throw err;
-      db.db("memento")
-        .collection("events")
-        .findOne({ _id: eventID })
-        .then((result) => res.send(result));
       db.close();
     });
   } catch (err) {

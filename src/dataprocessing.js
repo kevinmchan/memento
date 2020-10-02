@@ -12,6 +12,6 @@ const processEvent = (event) => {
   );
   return { ...event, date };
 };
-const processEventList = (list) => list.sort(eventCompare).map(processEvent);
+const processEventList = (list) => list ? list.sort(eventCompare).map(processEvent) : [];
 
 export { processEventList };

@@ -31,7 +31,7 @@ server.use("/api", apiRouter);
 server.use(express.static("public"));
 
 /* route root to index file */
-server.get("/", (req, res) => {
+server.get("*", (req, res) => {
   res.render("index");
 });
 
