@@ -15,7 +15,7 @@ const App = () => {
     <>
       <Router>
         <Switch>
-          <Route path="/relationship/:relationshipName" component={Relationship} />
+          <Route path="/r/:relationshipName" component={Relationship} />
           <Route path="/" component={Home} />
         </Switch>
       </Router>
